@@ -7,10 +7,10 @@ const TestRun = TRX.TestRun;
 const UnitTest = TRX.UnitTest;
 const newLine = os.EOL;
 
-export default function () {
+module.exports = function () {
     return {
         noColors: true,
-        
+
         reportTaskStart (startTime/*, userAgents, testCount*/) {
             this.startTime = startTime;
             this.tests = [];
@@ -36,6 +36,10 @@ export default function () {
             testResults.duration = testRunInfo.durationMs;
             testResults.start = this.testStartTime;
             testResults.end = end;
+
+            // directory name
+            testResults.executionId = `${this.fixtureName}_${name}`;
+
             this.tests.push(testResults);
         },
 
@@ -53,9 +57,12 @@ export default function () {
                     queuing:  now,
                     start:    this.startTime.toISOString(),
                     finish:   endTime.toISOString()
-                }
+                },
+
+                // attachments directory
+                deployment: { runDeploymentRoot : 'screenshots' }
             });
-            
+
             this.tests.map((test) => {
                 const unittest = new UnitTest({
                     name:            test.name,
@@ -82,7 +89,13 @@ export default function () {
                     startTime:       test.start && test.start.toISOString() || '',
                     endTime:         test.end && test.end.toISOString() || '',
                     errorMessage:    errorMessage,
-                    errorStacktrace: errorStacktrace
+                    errorStacktrace: errorStacktrace,
+                    executionId:     test.executionId,
+
+                    // file name
+                    resultFiles: [
+                        { path: 'screenshot.png' }
+                    ]
                 });
             });
             this.write(run.toXml());
