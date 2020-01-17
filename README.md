@@ -1,12 +1,17 @@
 # testcafe-reporter-trx
-[![Build Status](https://travis-ci.org/TuanWorkMail/testcafe-reporter-trx.svg)](https://travis-ci.org/TuanWorkMail/testcafe-reporter-trx)
 
 This is the **trx** reporter plugin for [TestCafe](http://devexpress.github.io/testcafe).
+
+This is a folk from keyrun's with attachment
+
+The screenshots path is hardcoded as root/screenshots/In/${Fixture}_${TestName}/screenshot.png
+
+I make this to use with Azure Pipeline's failed test's attachment
 
 ## Install
 
 ```
-npm install testcafe-reporter-trx
+npm install testcafe-reporter-trx-attachment
 ```
 
 ## Usage
